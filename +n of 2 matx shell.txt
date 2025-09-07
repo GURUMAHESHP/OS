@@ -1,0 +1,56 @@
+#!/bin/bash
+
+echo "Enter number of rows:"
+read r
+echo "Enter number of columns:"
+read c
+
+echo "Enter first matrix:"
+for ((i=0; i<r; i++))
+do
+  for ((j=0; j<c; j++))
+  do
+    read a[$((i*c+j))]
+  done
+done
+
+echo "Enter second matrix:"
+for ((i=0; i<r; i++))
+do
+  for ((j=0; j<c; j++))
+  do
+    read b[$((i*c+j))]
+  done
+done
+
+echo "First Matrix:"
+for ((i=0; i<r; i++))
+do
+  for ((j=0; j<c; j++))
+  do
+    echo -n "${a[$((i*c+j))]} "
+  done
+  echo
+done
+
+echo "Second Matrix:"
+for ((i=0; i<r; i++))
+do
+  for ((j=0; j<c; j++))
+  do
+    echo -n "${b[$((i*c+j))]} "
+  done
+  echo
+done
+
+echo "Resultant Matrix (Addition):"
+for ((i=0; i<r; i++))
+do
+  for ((j=0; j<c; j++))
+  do
+    sum=$((a[i*c+j] + b[i*c+j]))
+    echo -n "$sum "
+  done
+  echo
+done
+

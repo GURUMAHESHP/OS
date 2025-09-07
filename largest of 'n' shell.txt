@@ -1,0 +1,21 @@
+#!/bin/bash
+
+echo "Enter how many numbers:"
+read n
+
+echo "Enter $n numbers:"
+for ((i=0; i<n; i++))
+do
+    read arr[i]
+done
+
+max=${arr[0]}
+for ((i=1; i<n; i++))
+do
+    if (( arr[i] > max )); then
+        max=${arr[i]}
+    fi
+done
+
+echo "Largest number is: $max"
+

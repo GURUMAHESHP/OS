@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int main() {
+    int choice;
+    printf("1. Zombie Process\n");
+    printf("2. Orphan Process\n");
+    printf("Enter choice: ");
+    scanf("%d", &choice);
+
+    pid_t pid = fork();
+
+    if (pid < 0) {
+        printf("[ERROR] Fork failed!\n");
+        return 1;
+    }
+
+    if (choice == 1) {
+        // -------- Zombie Process --------
+        if (pid > 0) {
+            // Parent process
+            printf("[PARENT] This is the parent process\n");
+            printf("[PARENT] My pid is %d\n", getpid());
+            printf("[PARENT] My parent's pid is %d\n", getppid());
+            printf("[PARENT] Sleeping for 10 seconds\n");
+            sleep(10);
+            printf("[PARENT] Child process with pid = %d has ended, but still has an entry in the process table\n", pid);
+            printf("[PARENT] It is therefore a Zombie process\n");
+        } else {
+            // Child process
+            printf("[CHILD] This is the child process\n");
+            printf("[CHILD] My pid is %d\n", getpid());
+            printf("[CHILD] My parent's pid is %d\n", getppid());
+            printf("[CHILD] Exiting\n");
+            exit(0);
+        }
+    }
+
+    else if (choice == 2) {
+        // -------- Orphan Process --------
+        if (pid > 0) {
+            // Parent process
+            printf("[PARENT] This is the parent process\n");
+            printf("[PARENT] My pid is %d\n", getpid());
+            printf("[PARENT] Exiting immediately\n");
+            exit(0);
+        } else {
+            // Child process
+            printf("[CHILD] This is the child process\n");
+            printf("[CHILD] My pid is %d\n", getpid());
+            printf("[CHILD] My parent's pid is %d\n", getppid());
+            sleep(10);  // Wait so parent exits
+            printf("[CHILD] After parent exit, my new parent's pid is %d\n", getppid());
+            printf("[CHILD] Therefore, I am an Orphan process adopted by init\n");
+        }
+    }
+
+    else {
+        printf("[ERROR] Invalid choice!\n");
+    }
+
+    return 0;
+}

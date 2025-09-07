@@ -1,0 +1,53 @@
+#include <stdio.h>
+
+int main(int argc, char *argv[]) {
+    FILE *fp;
+    char ch;
+    int i;
+
+    if (argc < 2) {
+        printf("Give filename\n");
+        return 1;
+    }
+
+    fp = fopen(argv[1], "r");
+    if (fp == NULL) {
+        printf("File not found\n");
+        return 1;
+    }
+
+    // i. First 10 characters
+    printf("First 10: ");
+    for (i = 0; i < 10; i++) {
+        ch = fgetc(fp);
+        if (ch == '\n' || ch == EOF) break;  // optional stop at newline
+        putchar(ch);
+    }
+    printf("\n");
+
+    // ii. Skip 5 characters
+    fseek(fp, 5, SEEK_CUR);
+    printf("After skip 5: ");
+    for (i = 0; i < 5; i++) {
+        ch = fgetc(fp);
+        putchar(ch);
+    }
+    printf("\n");
+
+    // iii. Go to 5th last character
+    fseek(fp, -5, SEEK_END);
+    printf("Last 5: ");
+    for (i = 0; i < 5; i++) {
+        ch = fgetc(fp);
+        putchar(ch);
+    }
+    printf("\n");
+
+    // iv. Go to 3rd character
+    fseek(fp, 2, SEEK_SET); // 0-based index
+    ch = fgetc(fp);
+    printf("3rd char: %c\n", ch);
+
+    fclose(fp);
+    return 0;
+}
